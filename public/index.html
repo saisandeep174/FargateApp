@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fargate App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Fargate App!</h1>
+        <button id="fetchData">Fetch Data</button>
+
+        <!-- Table to display data -->
+        <table id="dataTable" style="width:100%; margin-top: 20px; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Department</th>
+                    <th>Salary</th>
+                </tr>
+            </thead>
+            <tbody id="response">
+                <!-- Data will be inserted here dynamically -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.getElementById('fetchData').addEventListener('click', () => {
+            fetch('/api/data')
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.json(); // Parse response as JSON
+                })
+                .then(data => {
+                    // Clear the previous table data
+                    const tableBody = document.getElementById('response');
+                    tableBody.innerHTML = '';
+
+                    // Loop through the fetched data and create table rows
+                    data.forEach(employee => {
+                        const row = document.createElement('tr');
+                        
+                        // Create table cells and add them to the row
+                        const nameCell = document.createElement('td');
+                        nameCell.innerText = employee.name; // Adjust according to your data structure
+                        row.appendChild(nameCell);
+
+                        const positionCell = document.createElement('td');
+                        positionCell.innerText = employee.position; // Adjust accordingly
+                        row.appendChild(positionCell);
+
+                        const departmentCell = document.createElement('td');
+                        departmentCell.innerText = employee.department; // Adjust accordingly
+                        row.appendChild(departmentCell);
+
+                        const salaryCell = document.createElement('td');
+                        salaryCell.innerText = employee.salary; // Adjust accordingly
+                        row.appendChild(salaryCell);
+
+                        // Append the row to the table body
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('response').innerText = "Failed to fetch data.";
+                });
+        });
+    </script>
+</body>
+</html>
