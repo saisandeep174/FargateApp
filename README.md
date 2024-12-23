@@ -1,6 +1,4 @@
-Here is the `README.md` content with the `**` removed:
 
-```markdown
 # Fargate App for MongoDB Record Retrieval
 
 This project is a Node.js application deployed on AWS Fargate, designed to retrieve records from a MongoDB database. The app demonstrates cloud-native deployment using Docker and AWS services, showcasing containerization and DevOps practices.
